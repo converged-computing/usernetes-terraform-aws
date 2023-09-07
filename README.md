@@ -51,15 +51,7 @@ We will be developing this further to run usernetes. Next steps are:
 2. Install rootless docker (by the user on startup)
 3. Individual commands for control plane / workers to setup usernetes
 
-TBA! You can look at the startup
-
- script logs like this if you need to debug.
- 
-```bash
-$ cat /var/log/cloud-init-output.log
-```
-
-That's it. Enjoy!
+Follow the commands in the examples basic README.md for next steps.
 
 ## License
 

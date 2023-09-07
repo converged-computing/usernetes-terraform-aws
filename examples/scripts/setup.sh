@@ -12,18 +12,10 @@ done
 found_count=$(aws ec2 describe-instances --region us-east-1 --filters "Name=tag:selector,Values=${selector_name}-selector" | jq .Reservations[].Instances[].NetworkInterfaces[].PrivateIpAddress | wc -l)
 echo "Desired count $found_count is reached"
 
+# Extra sleep for good measure lol
+sleep 10
+
 # Update the config files with our hosts - we need the ones from hostname
-hosts=$(aws ec2 describe-instances --region us-east-1 --filters "Name=tag:selector,Values=${selector_name}-selector" | jq -r .Reservations[].Instances[].NetworkInterfaces[].PrivateIpAddresses[].PrivateDnsName)
-
-# Write them into /etc/hosts
-NODELIST=""
-for host in $hosts; do
-   if [[ "$NODELIST" == "" ]]; then
-      NODELIST=$host
-   else
-      NODELIST=$NODELIST,$host   
-   fi
-done
-
-# Write hostlist somewhere we can find it
-sudo echo $NODELIST >> /opt/hostlist.txt
+wget https://gist.githubusercontent.com/vsoch/275b865921605e54ab48087e8036dae2/raw/bb7c663abf8cd3f016847fdf668a7a241c768b27/write-hostlist.sh
+chmod +x write-hostlist.sh
+./write-hostlist.sh $selector_name-selector

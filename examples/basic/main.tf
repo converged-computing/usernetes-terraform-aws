@@ -2,14 +2,14 @@
 # VARIABLES # for you to edit!
 
 locals {
-  name          = "usernetes"
-  pwd           = basename(path.cwd)
-  region        = "us-east-1"
+  name   = "usernetes"
+  pwd    = basename(path.cwd)
+  region = "us-east-1"
   # Output AMI from build-images
   ami           = "ami-0a71a4436084046bc"
   instance_type = "m4.large"
   vpc_cidr      = "10.0.0.0/16"
-  key_name      = "<Your-key-here>"
+  key_name      = "<My-Key-Id>"
 
   # Must be larger than ami
   volume_size = 30
@@ -45,8 +45,8 @@ terraform {
 # Read in a shared script to init / finalize the setup
 data "template_file" "startup_script" {
   template = templatefile("../scripts/setup.sh", {
-    selector_name  = local.name,
-    desired_size   = local.desired_size
+    selector_name = local.name,
+    desired_size  = local.desired_size
   })
 }
 
